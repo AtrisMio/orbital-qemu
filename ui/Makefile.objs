@@ -7,6 +7,7 @@ vnc-obj-$(CONFIG_VNC_SASL) += vnc-auth-sasl.o
 vnc-obj-y += vnc-ws.o
 vnc-obj-y += vnc-jobs.o
 
+common-obj-y += orbital.o
 common-obj-y += keymaps.o console.o cursor.o qemu-pixman.o
 common-obj-y += input.o input-keymap.o input-legacy.o
 common-obj-$(CONFIG_LINUX) += input-linux.o
@@ -41,6 +42,10 @@ common-obj-$(CONFIG_GTK) += gtk-egl.o
 endif
 endif
 
+ifeq ($(CONFIG_VULKAN),y)
+common-obj-y += vk-helpers.o
+endif
+
 gtk.o-cflags := $(GTK_CFLAGS) $(VTE_CFLAGS)
 gtk-egl.o-cflags := $(GTK_CFLAGS) $(VTE_CFLAGS)
 gtk-gl-area.o-cflags := $(GTK_CFLAGS) $(VTE_CFLAGS)
@@ -49,3 +54,4 @@ gtk-egl.o-libs += $(OPENGL_LIBS)
 shader.o-libs += $(OPENGL_LIBS)
 console-gl.o-libs += $(OPENGL_LIBS)
 egl-helpers.o-libs += $(OPENGL_LIBS)
+vk-helpers.o-libs += $(VULKAN_LIBS)

@@ -76,6 +76,7 @@ int main(int argc, char **argv)
 #include "net/slirp.h"
 #include "monitor/monitor.h"
 #include "ui/console.h"
+#include "ui/orbital.h"
 #include "ui/input.h"
 #include "sysemu/sysemu.h"
 #include "sysemu/numa.h"
@@ -2071,6 +2072,7 @@ typedef enum DisplayType {
     DT_COCOA,
     DT_GTK,
     DT_EGL,
+    DT_ORBITAL,
     DT_NONE,
 } DisplayType;
 
@@ -2199,6 +2201,8 @@ static DisplayType select_display(const char *p)
         error_report("GTK support is disabled");
         exit(1);
 #endif
+    } else if (strstart(p, "orbital", &opts)) {
+        display = DT_ORBITAL;
     } else if (strstart(p, "none", &opts)) {
         display = DT_NONE;
     } else {
@@ -4714,6 +4718,9 @@ int main(int argc, char **argv, char **envp)
         break;
     case DT_GTK:
         gtk_display_init(ds, full_screen, grab_on_hover);
+        break;
+    case DT_ORBITAL:
+        orbital_display_init();
         break;
     default:
         break;
