@@ -4038,12 +4038,14 @@ static void gen_bmi(CPUX86State *env, DisasContext *s, int b,
     modrm = cpu_ldub_code(env, s->pc++);
     b |= (b1 << 8);
     switch (b) {
-    case 0x38:
+    case 0x038:
+    case 0x138:
+    case 0x238:
+    case 0x338:
         /* Various integer extensions at 0f 38 f[0-f].  */
         b = modrm | (b1 << 8);
         modrm = cpu_ldub_code(env, s->pc++);
         reg = ((modrm >> 3) & 7) | rex_r;
-
         switch (b) {
         case 0x3f0: /* crc32 Gd,Eb */
         case 0x3f1: /* crc32 Gd,Ey */
@@ -4399,7 +4401,7 @@ static void gen_bmi(CPUX86State *env, DisasContext *s, int b,
         }
         break;
 
-    case 0x3a:
+    case 0x33a:
         /* Various integer extensions at 0f 3a f[0-f].  */
         b = modrm | (b1 << 8);
         modrm = cpu_ldub_code(env, s->pc++);
